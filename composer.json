@@ -1,0 +1,19 @@
+{
+    "name": "snappmarket/club-communicator",
+    "require": {
+        "snappmarket/php-rest-communicator": "1.0.2"
+    },
+    "authors": [
+        {
+            "name": "EmiTis Yousefi",
+            "email": "emitis89@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SnappMarket\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": false
+}
