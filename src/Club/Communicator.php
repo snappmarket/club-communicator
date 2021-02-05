@@ -26,7 +26,7 @@ class Communicator extends BasicCommunicator
 
 
 
-    public function getLoyaltyJwt(LoyaltyJwtRequest $request)
+    public function getLoyaltyJwt(LoyaltyJwtRequest $request): LoyaltyJwtResult
     {
         $uri      = '/api/loyalty/v1/users/' . $request->getUserId() . '/jwt-token';
         $response = $this->request(self::METHOD_GET, $uri);
