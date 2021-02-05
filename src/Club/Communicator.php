@@ -4,7 +4,9 @@ namespace SnappMarket\Club;
 
 use Psr\Log\LoggerInterface;
 use SnappMarket\Club\Requests\LoyaltyJwtRequest;
+use SnappMarket\Club\Requests\LoyaltyPointsRequest;
 use SnappMarket\Club\Results\LoyaltyJwtResult;
+use SnappMarket\Club\Results\LoyaltyPointsResult;
 use SnappMarket\Communicator\Communicator as BasicCommunicator;
 
 class Communicator extends BasicCommunicator
@@ -37,5 +39,20 @@ class Communicator extends BasicCommunicator
         $token  = $data['results']['token'];
 
         return new LoyaltyJwtResult($userId, $token);
+    }
+
+
+
+    public function getLoyaltyPoints(LoyaltyPointsRequest $request): LoyaltyPointsResult
+    {
+        $uri        = '/api/loyalty/v1/users/points';
+        $parameters = ['token' => $request->getJwtToken()];
+        $response   = $this->request(self::METHOD_GET, $uri, $parameters);
+
+        $data = json_decode($response->getBody()->__toString(), true);
+
+        $points = $data['results']['points'];
+
+        return new LoyaltyPointsResult($points);
     }
 }
