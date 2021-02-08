@@ -4,20 +4,20 @@ namespace SnappMarket\Club\Requests;
 
 class LoyaltyPointsRequest
 {
-    private $jwtToken;
+    private $userId;
 
 
 
-    public function __construct(string $jwtToken)
+    public function __construct(int $userId)
     {
-        $this->jwtToken = $jwtToken;
+        $this->userId = $userId;
     }
 
 
 
-    public function getJwtToken(): string
+    public function getUserId(): string
     {
-        return $this->jwtToken;
+        return $this->userId;
     }
 
 

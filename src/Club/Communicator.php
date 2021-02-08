@@ -45,14 +45,14 @@ class Communicator extends BasicCommunicator
 
     public function getLoyaltyPoints(LoyaltyPointsRequest $request): LoyaltyPointsResult
     {
-        $uri        = '/api/loyalty/v1/users/points';
-        $parameters = ['token' => $request->getJwtToken()];
-        $response   = $this->request(self::METHOD_GET, $uri, $parameters);
+        $uri      = '/api/loyalty/v1/users/' . $request->getUserId() . '/points';
+        $response   = $this->request(self::METHOD_GET, $uri);
 
         $data = json_decode($response->getBody()->__toString(), true);
 
+        $userId = $data['metadata']['user_id'];
         $points = $data['results']['points'];
 
-        return new LoyaltyPointsResult($points);
+        return new LoyaltyPointsResult($userId, $points);
     }
 }

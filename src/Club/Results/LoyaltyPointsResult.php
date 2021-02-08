@@ -4,13 +4,23 @@ namespace SnappMarket\Club\Results;
 
 class LoyaltyPointsResult
 {
+    private $userId;
+
     private $points;
 
 
 
-    public function __construct(int $points)
+    public function __construct(int $userId, int $points)
     {
+        $this->userId = $userId;
         $this->points = $points;
+    }
+
+
+
+    public function getUserId(): int
+    {
+        return $this->userId;
     }
 
 
