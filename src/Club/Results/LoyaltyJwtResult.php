@@ -2,18 +2,26 @@
 
 namespace SnappMarket\Club\Results;
 
+use DateTime;
+
 class LoyaltyJwtResult
 {
     private $userId;
 
     private $token;
 
+    private $expiresAt;
 
 
-    public function __construct(int $userId, string $token)
-    {
-        $this->userId = $userId;
-        $this->token  = $token;
+
+    public function __construct(
+        int $userId,
+        string $token,
+        DateTime $expiresAt
+    ) {
+        $this->userId    = $userId;
+        $this->token     = $token;
+        $this->expiresAt = $expiresAt;
     }
 
 
@@ -29,4 +37,12 @@ class LoyaltyJwtResult
     {
         return $this->token;
     }
+
+
+
+    public function getExpiresAt(): DateTime
+    {
+        return $this->expiresAt;
+    }
+
 }
