@@ -64,8 +64,9 @@ class Communicator extends BasicCommunicator
 
     public function getLoyaltyPossiblePoints(LoyaltyPossiblePointsRequest $request): LoyaltyPossiblePointsResult
     {
-        $uri      = '/api/loyalty/v1/users/' . $request->getUserId() . '/possible-points';
-        $response = $this->request(self::METHOD_GET, $uri);
+        $uri        = '/api/loyalty/v1/users/' . $request->getUserId() . '/possible-points';
+        $parameters = ['value' => $request->getValue()];
+        $response   = $this->request(self::METHOD_GET, $uri, $parameters);
 
         $data = json_decode($response->getBody()->__toString(), true);
 
