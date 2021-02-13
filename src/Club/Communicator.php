@@ -6,10 +6,12 @@ use Psr\Log\LoggerInterface;
 use SnappMarket\Club\Requests\LoyaltyJwtRequest;
 use SnappMarket\Club\Requests\LoyaltyPointsRequest;
 use SnappMarket\Club\Requests\LoyaltyPossiblePointsRequest;
+use SnappMarket\Club\Requests\LoyaltyProfileRequest;
 use SnappMarket\Club\Results\LoyaltyJwtResult;
 use SnappMarket\Club\Results\LoyaltyPointsResult;
 use DateTime;
 use SnappMarket\Club\Results\LoyaltyPossiblePointsResult;
+use SnappMarket\Club\Results\LoyaltyProfileResult;
 use SnappMarket\Communicator\Communicator as BasicCommunicator;
 
 class Communicator extends BasicCommunicator
@@ -75,5 +77,21 @@ class Communicator extends BasicCommunicator
         $points = $data['results']['points'];
 
         return new LoyaltyPossiblePointsResult($userId, $value, $points);
+    }
+
+
+
+    public function getLoayltyProfile(LoyaltyProfileRequest $request)
+    {
+        $uri      = '/api/loyalty/v1/users/' . $request->getUserId() . '/profile';
+        $response = $this->request(self::METHOD_GET, $uri);
+
+        $data = json_decode($response->getBody()->__toString(), true);
+
+        $userId  = $data['metadata']['user_id'];
+        $isLoyal = $data['is_loyal']['points'];
+        $points  = $data['results']['points'];
+
+        return new LoyaltyProfileResult($userId, $isLoyal, $points);
     }
 }
