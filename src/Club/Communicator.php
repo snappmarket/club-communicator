@@ -81,7 +81,7 @@ class Communicator extends BasicCommunicator
 
 
 
-    public function getLoayltyProfile(LoyaltyProfileRequest $request)
+    public function getLoayltyProfile(LoyaltyProfileRequest $request): LoyaltyProfileResult
     {
         $uri      = '/api/loyalty/v1/users/' . $request->getUserId() . '/profile';
         $response = $this->request(self::METHOD_GET, $uri);
