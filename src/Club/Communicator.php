@@ -102,7 +102,7 @@ class Communicator extends BasicCommunicator
     public function triggerOrderStatusChanged(OrderStatusChangedTriggerRequest $request
     ): OrderStatusChangedTriggerResponse {
         $uri      = '/api/v2/trigger/order-change/' . $request->getOrderId();
-        $response = $this->request(self::METHOD_GET, $uri);
+        $response = $this->request(self::METHOD_POST, $uri);
 
         $data = json_decode($response->getBody()->__toString(), true);
 
