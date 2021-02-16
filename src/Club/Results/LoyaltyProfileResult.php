@@ -10,13 +10,16 @@ class LoyaltyProfileResult
 
     private $points;
 
+    private $jwtToken;
 
 
-    public function __construct(int $userId, bool $isLoyal, int $points)
+
+    public function __construct(int $userId, bool $isLoyal, int $points, ?string $jwtToken)
     {
-        $this->userId  = $userId;
-        $this->isLoyal = $isLoyal;
-        $this->points  = $points;
+        $this->userId   = $userId;
+        $this->isLoyal  = $isLoyal;
+        $this->points   = $points;
+        $this->jwtToken = $jwtToken;
     }
 
 
@@ -38,5 +41,12 @@ class LoyaltyProfileResult
     public function getPoints(): int
     {
         return $this->points;
+    }
+
+
+
+    public function getJwtToken(): ?string
+    {
+        return $this->jwtToken;
     }
 }

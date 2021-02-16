@@ -91,10 +91,11 @@ class Communicator extends BasicCommunicator
         $data = json_decode($response->getBody()->__toString(), true);
 
         $userId  = $data['metadata']['user_id'];
+        $token   = $data['metadata']['jwt_token'];
         $isLoyal = $data['results']['is_loyal'];
         $points  = $data['results']['points'];
 
-        return new LoyaltyProfileResult($userId, $isLoyal, $points);
+        return new LoyaltyProfileResult($userId, $isLoyal, $points, $token);
     }
 
 
