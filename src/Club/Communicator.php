@@ -11,9 +11,11 @@ use SnappMarket\Club\Requests\OrderStatusChangedTriggerRequest;
 use SnappMarket\Club\Results\LoyaltyJwtResult;
 use SnappMarket\Club\Results\LoyaltyPointsResult;
 use DateTime;
+use SnappMarket\Club\Requests\PaymentStatusChangedTriggerRequest;
 use SnappMarket\Club\Results\LoyaltyPossiblePointsResult;
 use SnappMarket\Club\Results\LoyaltyProfileResult;
 use SnappMarket\Club\Results\OrderStatusChangedTriggerResponse;
+use SnappMarket\Club\Results\PaymentStatusChangedTriggerResponse;
 use SnappMarket\Communicator\Communicator as BasicCommunicator;
 
 class Communicator extends BasicCommunicator
@@ -100,8 +102,8 @@ class Communicator extends BasicCommunicator
 
 
 
-    public function triggerOrderStatusChanged(OrderStatusChangedTriggerRequest $request
-    ): OrderStatusChangedTriggerResponse {
+    public function triggerOrderStatusChanged(OrderStatusChangedTriggerRequest $request): OrderStatusChangedTriggerResponse
+    {
         $uri      = '/api/v2/trigger/order-change/' . $request->getOrderId();
         $response = $this->request(self::METHOD_POST, $uri);
 
@@ -111,4 +113,18 @@ class Communicator extends BasicCommunicator
 
         return new OrderStatusChangedTriggerResponse($orderId);
     }
+
+
+
+    public function triggerPaymentStatusChanged(PaymentStatusChangedTriggerRequest $request): PaymentStatusChangedTriggerResponse
+    {
+        $uri      = '/api/v2/trigger/payment-change/' . $request->getPaymentId();
+        $response = $this->request(self::METHOD_POST, $uri);
+
+        $data = json_decode($response->getBody()->__toString(), true);
+
+        $paymentId = $data['results']['payment_id'];
+
+        return new PaymentStatusChangedTriggerResponse($paymentId);
+    }    
 }
