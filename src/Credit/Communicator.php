@@ -34,7 +34,7 @@ class Communicator extends BasicCommunicator
     public function getBalance(BalanceGetterRequest $request): BalanceGetterResult
     {
         return new BalanceGetterResult(
-            $this->getResponse('balance/by/' . $request->getEntity(), $request)
+            $this->sendRequest('balance/by/' . $request->getEntity(), $request)
         );
     }
 
@@ -46,7 +46,7 @@ class Communicator extends BasicCommunicator
     public function withdraw(WithdrawRequest $request): WithdrawResult
     {
         return new WithdrawResult(
-            $this->getResponse('withdraw', $request)
+            $this->sendRequest('withdraw', $request)
         );
     }
 
@@ -58,7 +58,7 @@ class Communicator extends BasicCommunicator
     public function verify(VerifyRequest $request): VerifyResult
     {
         return new VerifyResult(
-            $this->getResponse('verify', $request)
+            $this->sendRequest('verify', $request)
         );
     }
 
@@ -70,7 +70,7 @@ class Communicator extends BasicCommunicator
     public function settle(SettleRequest $request): SettleResult
     {
         return new SettleResult(
-            $this->getResponse('settle', $request)
+            $this->sendRequest('settle', $request)
         );
     }
 
@@ -82,7 +82,7 @@ class Communicator extends BasicCommunicator
     public function withdrawVerify(WithdrawVerifyRequest $request): WithdrawVerifyResult
     {
         return new WithdrawVerifyResult(
-            $this->getResponse('withdraw-verify', $request)
+            $this->sendRequest('withdraw-verify', $request)
         );
     }
 
@@ -94,7 +94,7 @@ class Communicator extends BasicCommunicator
     public function getStatus(StatusRequest $request): StatusResult
     {
         return new StatusResult(
-            $this->getResponse('status', $request)
+            $this->sendRequest('status', $request)
         );
     }
 
@@ -106,7 +106,7 @@ class Communicator extends BasicCommunicator
     public function revert(RevertRequest $request): RevertResult
     {
         return new RevertResult(
-            $this->getResponse('revert', $request)
+            $this->sendRequest('revert', $request)
         );
     }
 
@@ -118,11 +118,11 @@ class Communicator extends BasicCommunicator
     public function cancel(CancelRequest $request): CancelResult
     {
         return new CancelResult(
-            $this->getResponse('cancel', $request)
+            $this->sendRequest('cancel', $request)
         );
     }
 
-    private function getResponse(string $uri, BaseRequest $request): array
+    private function sendRequest(string $uri, BaseRequest $request): array
     {
         $this->requestParameters[RequestOptions::JSON] = $request->toArray();
 
