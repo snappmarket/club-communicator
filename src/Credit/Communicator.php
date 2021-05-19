@@ -24,8 +24,6 @@ use SnappMarket\Credit\Results\WithdrawVerifyResult;
 
 class Communicator extends BasicCommunicator
 {
-    protected $requestParameters = [];
-
     /**
      * @param BalanceGetterRequest $request
      * @return BalanceGetterResult
@@ -124,15 +122,17 @@ class Communicator extends BasicCommunicator
 
     private function sendRequest(string $uri, BaseRequest $request): array
     {
-        $this->requestParameters[RequestOptions::JSON] = $request->toArray();
+        try {
+            $response = $this->request(
+                self::METHOD_POST,
+                $this->getCreditUri($uri),
+                $request->toArray()
+            );
 
-        $response = $this->request(
-            self::METHOD_POST,
-            $this->getCreditUri($uri),
-            $this->requestParameters
-        );
-
-        return json_decode($response->getBody()->getContents(), true);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (\Exception $exception) {
+            return [];
+        }
     }
 
     /**
