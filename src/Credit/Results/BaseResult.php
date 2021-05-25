@@ -21,7 +21,7 @@ class BaseResult
      */
     public function getResponse(): array
     {
-        return $this->response;
+        return $this->response['data'];
     }
 
     public function getSuccessful(): bool
