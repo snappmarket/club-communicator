@@ -3,6 +3,7 @@
 namespace SnappMarket\Credit;
 
 use GuzzleHttp\RequestOptions;
+use Psr\Http\Message\ResponseInterface;
 use SnappMarket\Communicator\Communicator as BasicCommunicator;
 use SnappMarket\Credit\Requests\BalanceGetterRequest;
 use SnappMarket\Credit\Requests\BaseRequest;
@@ -129,8 +130,22 @@ class Communicator extends BasicCommunicator
                 $request->toArray()
             );
 
-            return json_decode($response->getBody()->getContents(), true);
+            if ($response instanceof ResponseInterface) {
+                return json_decode($response->getBody()->__toString(), true);
+            }
+
+            if (is_array($response)) {
+                return $response;
+            }
+
+            return [];
+
         } catch (\Exception $exception) {
+            $this->logger->error('creditCommunicatorSendRequest', [
+                'exception_message' => $exception->getMessage(),
+                'exception_file' => $exception->getFile(),
+                'exception_line' => $exception->getLine()
+            ]);
             return [];
         }
     }
