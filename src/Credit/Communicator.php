@@ -137,7 +137,7 @@ class Communicator extends BasicCommunicator
             if (is_string($response)) {
                 $response = json_decode($response, true);
             } elseif ($response instanceof ResponseInterface) {
-                $response = json_decode($response->getBody()->getContent(), true);
+                $response = json_decode($response->getBody()->getContents(), true);
             }
 
             $this->logger->info('snappCreditSendRequestResponse', ['response' => $response]);
