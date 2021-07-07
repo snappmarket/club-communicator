@@ -2,7 +2,6 @@
 
 namespace SnappMarket\Credit;
 
-use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\ResponseInterface;
 use SnappMarket\Communicator\Communicator as BasicCommunicator;
 use SnappMarket\Credit\Requests\BalanceGetterRequest;
@@ -135,16 +134,15 @@ class Communicator extends BasicCommunicator
                 'response_content' => $response
             ]);
 
-            if (is_array($response)) {
-                $this->logger->info('snappCreditSendRequestResponseArray', ['response' => $response]);
-                return $response;
+            if (is_string($response)) {
+                $response = json_decode($response, true);
+            } elseif ($response instanceof ResponseInterface) {
+                $response = json_decode($response->getBody()->getContent(), true);
             }
 
-            $response = json_decode($response->getBody()->__toString(), true);
             $this->logger->info('snappCreditSendRequestResponse', ['response' => $response]);
+
             return $response;
-
-
         } catch (\Exception $exception) {
             $this->logger->error('snappCreditSendRequestException', [
                 'exception_message' => $exception->getMessage(),
