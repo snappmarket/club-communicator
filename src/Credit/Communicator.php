@@ -130,27 +130,23 @@ class Communicator extends BasicCommunicator
                 $request->toArray()
             );
 
-            $this->logger->info('creditSendRequest', [
+            $this->logger->info('snappCreditSendRequest', [
                 'response_type' => gettype($response),
                 'response_content' => $response
             ]);
 
-            if ($response instanceof ResponseInterface) {
-                $response = json_decode($response->getBody()->__toString(), true);
-                $this->logger->info('creditSendRequestResponseInstance', ['response' => $response]);
-                return $response;
-
-            }
-
             if (is_array($response)) {
-                $this->logger->info('creditSendRequestResponseArray', ['response' => $response]);
+                $this->logger->info('snappCreditSendRequestResponseArray', ['response' => $response]);
                 return $response;
             }
 
-            return [];
+            $response = json_decode($response->getBody()->__toString(), true);
+            $this->logger->info('snappCreditSendRequestResponse', ['response' => $response]);
+            return $response;
+
 
         } catch (\Exception $exception) {
-            $this->logger->error('creditSendRequestException', [
+            $this->logger->error('snappCreditSendRequestException', [
                 'exception_message' => $exception->getMessage(),
                 'exception_file' => $exception->getFile(),
                 'exception_line' => $exception->getLine()
