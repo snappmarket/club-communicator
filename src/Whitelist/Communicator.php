@@ -27,7 +27,7 @@ class Communicator extends BasicCommunicator
         $uri      = '/api/v1/whitelist';
         $response = $this->request(self::METHOD_GET, $uri, $request->toArray());
 
-        $data = json_decode($response->getBody()->getContents(), true);
+        $data = json_decode($response->getBody()->__toString(), true);
 
         if (json_last_error() != JSON_ERROR_NONE) {
             $data = [];
