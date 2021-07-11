@@ -9,11 +9,19 @@ class WhitelistAccessibleFeaturesRequest
 
     public function pushUsers(...$users)
     {
+        if (empty($users)) {
+            return;
+        }
+
         array_push($this->users, ...$users);
     }
 
     public function pushPlatforms(...$platforms)
     {
+        if (empty($platforms)) {
+            return;
+        }
+
         array_push($this->platforms, ...$platforms);
     }
 
