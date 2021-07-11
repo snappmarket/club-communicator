@@ -129,22 +129,23 @@ class Communicator extends BasicCommunicator
                 $request->toArray()
             );
 
-            $this->logger->info('snappCreditSendRequest', [
-                'response_type' => gettype($response),
-                'response_content' => $response
-            ]);
+            $this->logResult('snappCreditCommunicatorResponse', $response);
 
-            if (is_string($response)) {
-                $response = json_decode($response, true);
-            } elseif ($response instanceof ResponseInterface) {
-                $response = json_decode($response->getBody()->getContents(), true);
+            if (is_array($response)) {
+                $this->logResult('snappCreditCommunicatorTransformResponse', $response);
+                return $response;
             }
 
-            $this->logger->info('snappCreditSendRequestResponse', ['response' => $response]);
+            if ($response instanceof ResponseInterface) {
+                $response = $response->getBody()->__toString();
+            }
+
+            $response = json_decode($response, true);
+            $this->logResult('snappCreditCommunicatorTransformResponse', $response);
 
             return $response;
         } catch (\Exception $exception) {
-            $this->logger->error('snappCreditSendRequestException', [
+            $this->logger->error('snappCreditCommunicatorException', [
                 'exception_message' => $exception->getMessage(),
                 'exception_file' => $exception->getFile(),
                 'exception_line' => $exception->getLine()
@@ -160,5 +161,10 @@ class Communicator extends BasicCommunicator
     private function getCreditUri(string $uri): string
     {
         return '/api/v1/credit/' . $uri;
+    }
+
+    private function logResult(string $message, $response): void
+    {
+        $this->logger->info($message, ['response_type' => gettype($response), 'response_content' => $response]);
     }
 }
