@@ -1,7 +1,7 @@
 {
     "name": "snappmarket/club-communicator",
     "require": {
-        "snappmarket/php-rest-communicator": "1.0.2"
+        "snappmarket/php-rest-communicator": "^1.1"
     },
     "authors": [
         {
