@@ -30,7 +30,11 @@ class Communicator extends BasicCommunicator
     ) {
         $headers[static::SECURITY_TOKEN_HEADER] = $securityToken;
 
-        parent::__construct($baseUri, $headers, $logger);
+        parent::__construct($baseUri, $headers, $logger, [
+            'connect_timeout' => 3,
+            'read_timeout' => 3,
+            'timeout' => 3
+        ]);
     }
 
 
